@@ -3,12 +3,13 @@ import os
 import requests
 import io
 from PIL import Image
+from rembg import remove
 
 def serve_pil_image(pil_img):
     img_io = io.BytesIO()
-    pil_img.save(img_io, 'JPEG', quality=70)
+    pil_img.save(img_io, 'png', quality=70)
     img_io.seek(0)
-    return send_file(img_io, mimetype='image/jpeg')
+    return send_file(img_io, mimetype='image/png')
 
 app = Flask(__name__)
 
@@ -19,12 +20,13 @@ def index():
 
 @app.route('/imagine')
 def imagine():
-    image_url = 'https://cdn.discordapp.com/attachments/1140481534760067198/1140537223905812500/novadev__Cat_2b38604a-4df1-47dc-b98b-07f3692f1f57.png'
+    image_url = 'https://cdn.discordapp.com/attachments/1140481534760067198/1140559999102353518/novadev__Phone_settings_button_Windows_Vista_style_solid_color__cb030d47-10ab-4185-8b33-e2d55a5f8640.png'
     image_response = requests.get(image_url)
     pil_ori = Image.open(io.BytesIO(image_response.content))
     (width, height) = pil_ori.size
     pil_cropped = pil_ori.crop((0, 0, width / 2, height / 2))
-    return serve_pil_image(pil_cropped)
+    bg_removed = remove(pil_cropped)
+    return serve_pil_image(bg_removed)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+    app.run(debug=True, port=os.getenv("PORT", default=8000))
