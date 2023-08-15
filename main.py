@@ -3,7 +3,6 @@ import os
 import requests
 import io
 from PIL import Image
-from rembg import remove
 from io import BytesIO
 
 def serve_pil_image(pil_img):
