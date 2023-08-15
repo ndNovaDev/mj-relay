@@ -36,4 +36,4 @@ def imagine():
     return serve_pil_image(bg_removed)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=8000))
+    app.run(host="0.0.0.0", port=3000)
