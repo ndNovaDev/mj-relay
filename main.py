@@ -19,7 +19,7 @@ def get_task_status(id):
     response = {
         "status": mj_status_response['status'],
         "progress": 0 if progress_str == '' else int(progress_str[:-1]),
-        "image": Null if mj_status_response['status'] != 'SUCCESS' else get_mj_image(mj_status_response['imageUrl']) 
+        "image": get_mj_image(mj_status_response['imageUrl']) if mj_status_response['status'] == 'SUCCESS' else None
     }
     return jsonify(response)
 
